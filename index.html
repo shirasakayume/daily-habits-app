@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#faf7fb">
+  <title>日課アプリ</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="icon" href="icons/icon-192.png">
+</head>
+
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="month-navigation">
+        <button type="button" id="previousMonthButton" class="month-button" aria-label="前の月">‹</button>
+
+        <button type="button" id="todayButton" class="today-button">
+          <span id="monthTitle"></span>
+          <small>今日</small>
+        </button>
+
+        <button type="button" id="nextMonthButton" class="month-button" aria-label="次の月">›</button>
+      </div>
+
+      <button type="button" id="editHabitsButton">⚙ 日課を編集</button>
+    </header>
+
+    <div class="table-wrapper">
+      <table id="habitTable">
+        <thead>
+          <tr id="habitHeader">
+            <th class="date-column">日付</th>
+          </tr>
+        </thead>
+        <tbody id="habitTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="editScreen" class="screen">
+    <div class="panel">
+      <h2>日課を編集</h2>
+      <div id="habitEditList"></div>
+      <button type="button" id="addHabitButton" class="add-button">＋ 日課を追加</button>
+      <button type="button" id="closeEditButton" class="close-button">閉じる</button>
+    </div>
+  </div>
+
+  <div id="inputModal" class="screen modal">
+    <div class="panel">
+      <h2 id="inputModalTitle">日課を追加</h2>
+      <input id="habitNameInput" type="text" maxlength="20" placeholder="日課の名前">
+      <div class="modal-buttons">
+        <button type="button" id="cancelInputButton">キャンセル</button>
+        <button type="button" id="saveInputButton" class="primary-button">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirmModal" class="screen modal">
+    <div class="panel">
+      <h2>日課を削除</h2>
+      <p id="confirmMessage"></p>
+      <div class="modal-buttons">
+        <button type="button" id="cancelDeleteButton">キャンセル</button>
+        <button type="button" id="confirmDeleteButton" class="delete-confirm-button">削除する</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register(new URL("service-worker.js", document.baseURI));
+    }
+  </script>
+</body>
+</html>
