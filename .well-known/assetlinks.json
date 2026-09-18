@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.shirasakayume.twa",
+        "sha256_cert_fingerprints": ["F0:4F:AE:CC:8A:24:A1:24:F7:CC:54:5F:AA:C2:54:98:A9:0F:C7:49:A8:C3:BC:06:1F:3C:4D:BA:AC:D9:1E:C3"]
+      }
+    }]
