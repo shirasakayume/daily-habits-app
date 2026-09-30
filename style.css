@@ -351,3 +351,23 @@ td {
     top: 60px;
   }
 }
+
+.drag-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  touch-action: none;
+  cursor: grab;
+}
+
+.habit-edit-item.is-dragging {
+  opacity: 0.6;
+  transform: scale(1.02);
+}
+
+.habit-edit-item.drag-target {
+  outline: 2px dashed;
+  opacity: 0.6;
+}

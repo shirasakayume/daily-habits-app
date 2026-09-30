@@ -421,7 +421,160 @@ function createHabitEditList() {
       item.className =
         "habit-edit-item";
 
+      const dragHandle =
+  document.createElement(
+    "span"
+  );
 
+dragHandle.textContent =
+  "☰";
+
+dragHandle.className =
+  "drag-handle";
+
+      dragHandle.draggable = true;
+
+      dragHandle.addEventListener(
+  "touchstart",
+  (event) => {
+    event.preventDefault();
+  }
+);
+
+      dragHandle.addEventListener(
+  "touchstart",
+  () => {
+    item.classList.add("is-dragging");
+  }
+);
+
+      dragHandle.addEventListener(
+  "touchstart",
+  (event) => {
+    item.classList.add("is-dragging");
+
+    item.dataset.dragStartY =
+      event.touches[0].clientY;
+  }
+);
+
+      dragHandle.addEventListener(
+  "touchmove",
+  (event) => {
+
+    event.preventDefault();
+
+    const currentY =
+      event.touches[0].clientY;
+
+    const startY =
+      Number(item.dataset.dragStartY);
+
+    const moveY =
+      currentY - startY;
+
+    item.style.transform =
+      `translateY(${moveY}px)`;
+
+    const items =
+  [...habitEditList.children];
+
+items.forEach(
+  (otherItem, otherIndex) => {
+
+    if (otherItem === item) {
+      return;
+    }
+
+    const rect =
+      otherItem.getBoundingClientRect();
+
+    const centerY =
+      rect.top + rect.height / 2;
+
+    if (
+      currentY > rect.top &&
+      currentY < rect.bottom
+    ) {
+
+      otherItem.classList.add(
+        "drag-target"
+      );
+
+    } else {
+
+      otherItem.classList.remove(
+        "drag-target"
+      );
+    }
+  }
+);
+     }
+);
+    
+
+    dragHandle.addEventListener(
+  "touchend",
+  () => {
+
+    item.classList.remove(
+      "is-dragging"
+    );
+
+    const items =
+      [...habitEditList.children];
+
+    let targetIndex = -1;
+
+    items.forEach(
+      (otherItem, otherIndex) => {
+
+        if (
+          otherItem !== item &&
+          otherItem.classList.contains(
+            "drag-target"
+          )
+        ) {
+          targetIndex =
+            otherIndex;
+        }
+
+        otherItem.classList.remove(
+          "drag-target"
+        );
+      }
+    );
+
+    if (targetIndex !== -1) {
+
+      const currentIndex =
+        items.indexOf(item);
+
+      const movedHabit =
+        habits.splice(
+          currentIndex,
+          1
+        )[0];
+
+      habits.splice(
+        targetIndex,
+        0,
+        movedHabit
+      );
+
+      saveHabits();
+
+      createTable();
+      
+      createHabitEditList();
+    }
+
+    item.style.transform = "";
+
+    delete item.dataset.dragStartY;
+  }
+);
+      
       const name =
         document.createElement(
           "span"
@@ -486,10 +639,11 @@ function createHabitEditList() {
 
 
       item.append(
-        name,
-        renameButton,
-        deleteButton
-      );
+  dragHandle,
+  name,
+  renameButton,
+  deleteButton
+);
 
 
       habitEditList.appendChild(
